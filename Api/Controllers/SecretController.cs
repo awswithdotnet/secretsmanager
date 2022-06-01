@@ -16,12 +16,12 @@ public class SecretController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult GetSecret()
+    public async Task<IActionResult> GetSecret()
     {
         GetSecretValueRequest request = new GetSecretValueRequest();
         request.SecretId = "test-secret";
         request.VersionStage = "AWSCURRENT";
-        Task<GetSecretValueResponse> response = _secretsManager.GetSecretValueAsync(request);
-        return Ok(new { Secret = response.Result.SecretString });
+        GetSecretValueResponse response = await  _secretsManager.GetSecretValueAsync(request);
+        return Ok(new { Secret = response.SecretString });
     }
 }
